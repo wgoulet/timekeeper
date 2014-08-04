@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>TimeTracker</title>
+</head>
+<a href="http://jquery.com/">jQuery</a>
+<script src="https://www.vivaciousmezzo.com/timesheet/libs/jquery.js"></script>
+<script src="https://www.vivaciousmezzo.com/timesheet/libs/dist/jquery.handsontable.full.js"></script>
+<link rel="stylesheet" media="screen" href="https://www.vivaciousmezzo.com/timesheet/libs/dist/jquery.handsontable.full.css">
+<link rel="stylesheet" media="screen" href="https://www.vivaciousmezzo.com/timesheet/libs/demo/css/samples.css">
+
+<div class="handsontable" id="example"></div>
+<button class="Save" title="Save">Save Data</button>
+
+<!--
+Need to fix path to libraries so that they are loaded correctly. If I
+just reference them from the current directory, the Flask application
+is routed the request to load the libraries which naturally fails.
+
+What I want to do is make the libraries load from another directory
+so that the request to fetch them is not sent to my Flask application.
+
+!-->
+
+<script>
+$(document).ready(function () {
+ var data = [
+        ["Task", "Sun", "Mon", "Tues", "Wed","Thurs","Fri","Sat"],
+        ["Marketing", 1, 0, 1, 2,0,1,3],
+        ["Teaching",  1, 0, 1, 2,0,1,3],
+        ["Business Development",1, 0, 1, 2,0,1,3],
+        ["Research", 1, 0, 1, 2,0,1,3],
+        ["Practice", 1, 0, 1, 2,0,1,3]
+      ]; 
+  $('#example').handsontable({
+    data: data,
+    minSpareRows: 1,
+    colHeaders: true,
+    contextMenu: true
+  });
+
+});
+
+</script>
+</body>
+</html>
