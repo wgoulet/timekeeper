@@ -22,9 +22,10 @@ def submit():
     print request.method
     if request.method == 'POST':
         print "In method"    
-        data = request.json()
-        print data
-        return make_response(data)
+        data = request.get_json()
+        #print data
+        #return make_response(data)
+        return "testing"
 
     else:
         print "Unable to parse"
