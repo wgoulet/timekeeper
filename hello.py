@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import json
+from flask_cors import cross_origin
 
 app = Flask(__name__)
 
@@ -12,14 +14,22 @@ def index():
 def hello():
     return "hello world I'm back dude"
 
-if __name__ == "__main__":
-    app.run("0.0.0.0",5000)
 
-@app.route("/timesheet/submit")
+@app.route("/timesheet/savedata",methods=['POST','OPTIONS'])
+@cross_origin()
 def submit():
     error = None
+    print request.method
     if request.method == 'POST':
-        return "Saved Data"
+        print "In method"    
+        data = request.json()
+        print data
+        return make_response(data)
+
+    else:
+        print "Unable to parse"
     return "Error"    
 
 
+if __name__ == "__main__":
+    app.run("0.0.0.0",5000)
