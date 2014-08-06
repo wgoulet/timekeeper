@@ -49,14 +49,21 @@ $(document).ready(function () {
   //handsontable updates the global data table by reference
   //so we need to serialize the data above
   var jdata = JSON.stringify(data);
-  $.post("http://www.vivaciousmezzo.com:5000/timesheet/savedata",jdata,function (data)
-  {
-    $( ".result" ).html( data );
+  $.ajax({
+    type: "POST",
+    url: "http://www.vivaciousmezzo.com:5000/timesheet/savedata",
+    // The key needs to match your method's input parameter (case-sensitive).
+    data: jdata,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data){alert(data);},
+    failure: function(errMsg) {
+        alert(errMsg);
+    }
+
+});
   });
 });
-
-});
-
 </script>
 </body>
 </html>
