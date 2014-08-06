@@ -10,8 +10,9 @@
 <link rel="stylesheet" media="screen" href="https://www.vivaciousmezzo.com/timesheet/libs/dist/jquery.handsontable.full.css">
 <link rel="stylesheet" media="screen" href="https://www.vivaciousmezzo.com/timesheet/libs/demo/css/samples.css">
 
-<div class="handsontable" id="example"></div>
-<button class="Save" title="Save">Save Data</button>
+<div class="handsontable" id="timesheet"></div>
+<input type="button" class="Save" title="Save" value="Save Data" id="btnSave">Save Data</button>
+<input type="button" class="ChangeColor" title="Change Color" value="Change Color" id="btnChangeColor"></button>
 
 <!--
 Need to fix path to libraries so that they are loaded correctly. If I
@@ -33,12 +34,26 @@ $(document).ready(function () {
         ["Research", 1, 0, 1, 2,0,1,3],
         ["Practice", 1, 0, 1, 2,0,1,3]
       ]; 
-  $('#example').handsontable({
+  $('#timesheet').handsontable({
     data: data,
     minSpareRows: 1,
     colHeaders: true,
     contextMenu: true
   });
+  $('#btnChangeColor').on("click",function(){
+    $('#btnSave').css("background-color","blue");	  
+  });
+
+ //Get the data from example data and turn it into JSON
+  $('#btnSave').on("click",function() {
+  //handsontable updates the global data table by reference
+  //so we need to serialize the data above
+  var jdata = JSON.stringify(data);
+  $.post("http://www.vivaciousmezzo.com:5000/timesheet/savedata",jdata,function (data)
+  {
+    $( ".result" ).html( data );
+  });
+});
 
 });
 
