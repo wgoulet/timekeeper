@@ -4,6 +4,7 @@ from flask import render_template
 from flask import json
 from flask_cors import cross_origin
 
+
 app = Flask(__name__)
 
 @app.route("/timesheet/main")
@@ -22,8 +23,12 @@ def submit():
     print request.method
     if request.method == 'POST':
         print "In method"    
-        data = request.get_json()
-        #print data
+        #import pdb; pdb.set_trace()
+        data = request.form
+        for i in data.iteritems(multi=True):
+            print i
+        
+            
         #return make_response(data)
         return "testing"
 
