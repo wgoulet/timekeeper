@@ -12,17 +12,8 @@
 
 <div class="handsontable" id="timesheet"></div>
 <input type="button" class="Save" title="Save" value="Save Data" id="btnSave">Save Data</button>
-<input type="button" class="ChangeColor" title="Change Color" value="Change Color" id="btnChangeColor"></button>
+<input type="button" class="Load" title="Load" value="Load Data" id="btnLoad">Load Data</button>
 
-<!--
-Need to fix path to libraries so that they are loaded correctly. If I
-just reference them from the current directory, the Flask application
-is routed the request to load the libraries which naturally fails.
-
-What I want to do is make the libraries load from another directory
-so that the request to fetch them is not sent to my Flask application.
-
-!-->
 
 <script>
 $(document).ready(function () {
@@ -40,21 +31,32 @@ $(document).ready(function () {
     colHeaders: true,
     contextMenu: true
   });
-  $('#btnChangeColor').on("click",function(){
-    $('#btnSave').css("background-color","blue");	  
-  });
 
+  $('#btnLoad').on("click",function() {
+  var $container = $('#timesheet');
+  var table = $container.data('handsontable');
+  $.ajax({
+    url: "http://www.vivaciousmezzo.com:5000/timesheet/getdata.json",
+    dataType: 'json',
+    type: 'GET',
+    success: function(res) {
+        table.loadData(res.data)
+        console.log(res.data) 
+    }
+   });
+  }); 
  //Get the data from example data and turn it into JSON
   $('#btnSave').on("click",function() {
   var $container = $('#timesheet');
   var table = $container.data('handsontable');
+  console.log(JSON.stringify(table.getData()));
   console.log("test");
   $.ajax({
     type: "POST",
     url: "http://www.vivaciousmezzo.com:5000/timesheet/savedata",
     // The key needs to match your method's input parameter (case-sensitive).
-    data: {"data": table.getData()},
-    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify(table.getData()),
     success: function(data){alert(data);},
     failure: function(errMsg) {
         alert(errMsg);
